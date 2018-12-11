@@ -11,7 +11,7 @@ import ApolloClient, { gql } from 'apollo-boost';
 import { Query, Mutation } from 'react-apollo';
 import axios from 'axios';
 import {client} from 'index'
-
+import Histogram from 'components/Histogram'
 const GET_POSTS = gql`{
   allPosts(count: 100) {
 	  id,
@@ -27,8 +27,8 @@ const months = {
   Mar: 3,
   Apr: 4,
   May: 5,
-  June: 6,
-  July: 7,
+  Jun: 6,
+  Jul: 7,
   Aug: 8,
   Sep: 9,
   Oct: 10,
@@ -64,23 +64,20 @@ class Home extends React.Component {
             }
           }
         })
-
-
-        // posts.sort((a,b) => months[a.month] - months[b.month])
-
-        this.setState({postsByMonth})
+        let postsByMonthSorted = Object.keys(postsByMonth).map(month => ({month, posts: postsByMonth[month]})).sort((a,b) => months[a.month]-months[b.month])
+        this.setState({postsByMonthSorted})
       });
   }
   render() {
-    if(this.state.postsByMonth) {
+    if(this.state.postsByMonthSorted) {
       return (
         <Fragment>
-          <h1>React GraphQL D3</h1>
-          {
-            Object.keys(this.state.postsByMonth).map((month) => {
-              return <div key={month}>{this.state.postsByMonth[month].length}</div>
-            })
-          }
+          <h1>React GraphQL D3. Number of Posts per month</h1>
+          <Histogram
+            data={this.state.postsByMonthSorted}
+            width={800}
+            height={800}
+          />
         </Fragment>
       );
     }
