@@ -1,23 +1,19 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
 import Home from '../home'
 import About from '../about'
 
-// <header style={{width: '400px', height: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-//   <Link to="/">Home</Link>
-//   <Link to="/about-us">About</Link>
-// </header>
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <main>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/about-us" component={About} />
-        </main>
-      </div>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/about-us" component={About} />
+      </Switch>
     )
   }
 }
 
-export default App
+export default withRouter(connect(null, null)(App))

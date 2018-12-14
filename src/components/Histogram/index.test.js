@@ -53,8 +53,11 @@ describe('<Histogram/> with mockData', async () => {
   it('it should be defined', () => {
     expect(Histogram).toBeDefined();
   });
-
-  it('it should have three .vx-group class', () => {
-    expect(screen.find('.vx-group')).to.have.lengthOf(3)
+  it('should render svg properly', () => {
+    expect(screen.find('svg').map(node => node.text())).toHaveLength(30)
+  })
+  it('it should have 12 .vx-bar class', () => {
+    // console.log(screen.find('.vx-bar').debug())
+    expect(screen.find('.vx-bar').map(node => node.text()).length).toEqual(12)
   });
 })

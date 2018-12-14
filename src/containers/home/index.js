@@ -10,7 +10,7 @@ import ApolloClient, { gql } from 'apollo-boost';
 
 import { Query, Mutation } from 'react-apollo';
 import axios from 'axios';
-import {client} from 'index'
+// import {client} from 'index'
 import Histogram from 'components/Histogram'
 export const GET_POSTS = gql`{
   allPosts(count: 100) {
@@ -21,6 +21,9 @@ export const GET_POSTS = gql`{
 // const axiosGraphQL = axios.create({
 //   baseURL: 'http://localhost:4000',
 // });
+const client = new ApolloClient({
+  uri: 'https://fakerql.com/graphql',
+});
 const months = {
   Jan: 1,
   Feb: 2,
