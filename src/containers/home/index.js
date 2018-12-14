@@ -2,9 +2,9 @@ import React, {Fragment} from 'react'
 import ReactDOM from 'react-dom';
 import './styles.css';
 
-import { push } from 'connected-react-router'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+// import { push } from 'connected-react-router'
+// import { bindActionCreators } from 'redux'
+// import { connect } from 'react-redux'
 // import gql from 'graphql-tag';
 import ApolloClient, { gql } from 'apollo-boost';
 
@@ -12,7 +12,7 @@ import { Query, Mutation } from 'react-apollo';
 import axios from 'axios';
 import {client} from 'index'
 import Histogram from 'components/Histogram'
-const GET_POSTS = gql`{
+export const GET_POSTS = gql`{
   allPosts(count: 100) {
 	  id,
     createdAt
@@ -46,12 +46,8 @@ class Home extends React.Component {
     client
       .query({
         query: GET_POSTS,
-        // variables: {
-        //   organization: 'the-road-to-learn-react',
-        // },
       })
       .then(response => {
-        console.log("===GET_POSTS QUERY RESULT data", response)
         let posts = response.data.allPosts
         posts.forEach(post => {
           let month = post.createdAt.split(' ')[1]
@@ -72,28 +68,23 @@ class Home extends React.Component {
     if(this.state.postsByMonthSorted) {
       return (
         <Fragment>
-          <h1>React GraphQL D3. Number of Posts per month</h1>
-          <Histogram
-            data={this.state.postsByMonthSorted}
-            width={800}
-            height={800}
-          />
+          <div style={{width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+            <h1>React GraphQL D3. Number of Posts per month</h1>
+            <Histogram
+              data={this.state.postsByMonthSorted}
+              width={1000}
+              height={600}
+            />
+          </div>
         </Fragment>
       );
     }
-    return <h1>Loading</h1>
+    return (
+      <div style={{width: '100%', minHeight: '100vh', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{fontSize: '40px', fontWeight: 'bold'}}>Loading</div>
+      </div>
+    )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-  }
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home)
+export default Home

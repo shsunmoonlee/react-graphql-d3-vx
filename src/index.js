@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import ReactDOM, { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { ApolloProvider } from 'react-apollo';
@@ -13,8 +13,6 @@ import App from './containers/app'
 
 import 'sanitize.css/sanitize.css'
 import './index.css'
-
-const target = document.querySelector('#root')
 
 export const client = new ApolloClient({
   uri: 'https://fakerql.com/graphql',
@@ -30,15 +28,13 @@ export const client = new ApolloClient({
 //   cache,
 // });
 
-render(
+ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <div>
-          <App />
-        </div>
+        <App />
       </ConnectedRouter>
     </Provider>
   </ApolloProvider>,
-  target
+  document.getElementById('root')
 )
